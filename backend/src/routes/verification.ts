@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { verifyWork, getVerification } from '../services/verification.js';
+import { idempotency } from '../middleware/idempotency.js';
 
 export const verificationRouter = Router();
 
 // AI-powered work verification
-verificationRouter.post('/verify', async (req, res) => {
+verificationRouter.post('/verify', idempotency(), async (req, res) => {
   try {
     const { repositoryUrl, milestoneDescription, projectId } = req.body;
 
